@@ -24,7 +24,7 @@ function call() {
   });
 }
 
-function answerer() {
+function generateAns() {
   var peer = new Peer();
   peer.on('open', (id) => {
     document.getElementById('peerid').innerHTML = id;
