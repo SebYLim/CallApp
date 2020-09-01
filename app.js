@@ -11,7 +11,6 @@ function onReceiveStream(stream){
 
 function call() {
   var person_to_call = document.getElementById('callings').value;
-  console.log('CALLING BRO' + person_to_call);
 
   var peer = new Peer();
   getUserMedia({video: false, audio: true}, function(stream) {
