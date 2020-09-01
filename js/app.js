@@ -16,7 +16,6 @@ function call() {
   getUserMedia({video: false, audio: true}, function(stream) {
     var call = peer.call(person_to_call, stream);
     call.on('stream', function(remoteStream) {
-      console.log(remoteStream);
       onReceiveStream(remoteStream);
     });
   }, function(err) {
@@ -24,7 +23,7 @@ function call() {
   });
 }
 
-function generateAns() {
+function generateID() {
   var peer = new Peer();
   peer.on('open', (id) => {
     document.getElementById('peerid').innerHTML = id;
@@ -33,7 +32,6 @@ function generateAns() {
     getUserMedia({video: false, audio: true}, function(stream) {
       call.answer(stream); 
       call.on('stream', function(remoteStream) { 
-        console.log(remoteStream);
         onReceiveStream(remoteStream);
       });
   }, function(err) {
