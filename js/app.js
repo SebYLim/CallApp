@@ -1,4 +1,14 @@
-var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+var getUserMedia = (function  () {
+  if(navigator.getUserMedia) {
+    return navigator.getUserMedia.bind(navigator)
+  }
+  if(navigator.webkitGetUserMedia) {
+    return navigator.webkitGetUserMedia.bind(navigator)
+  }
+  if(navigator.mozGetUserMedia) {
+    return navigator.mozGetUserMedia.bind(navigator)
+  }
+})();
 
 function onReceiveStream(stream){
   var audio = document.querySelector('audio');
@@ -11,12 +21,16 @@ function onReceiveStream(stream){
 
 function call() {
   var person_to_call = document.getElementById('callings').value;
-
+  console.log(person_to_call);
   var peer = new Peer();
-  getUserMedia({video: false, audio: true}, function(stream) {
+  getUserMedia({
+      video: false, 
+      audio: true
+  }, function(stream) {
     var call = peer.call(person_to_call, stream);
-    call.on('stream', function(remoteStream) {
-      onReceiveStream(remoteStream);
+    call.on('stream', function (remoteStream) {
+       console.log(remoteStream); 
+       onReceiveStream(remoteStream);
     });
   }, function(err) {
     console.log('Failed to get local stream' ,err);
@@ -32,6 +46,7 @@ function generateID() {
     getUserMedia({video: false, audio: true}, function(stream) {
       call.answer(stream); 
       call.on('stream', function(remoteStream) { 
+        console.log(remoteStream);
         onReceiveStream(remoteStream);
       });
   }, function(err) {
